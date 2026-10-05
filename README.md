@@ -48,6 +48,9 @@ Chaque composant est exporté séparément et possède son propre fichier dans `
 | OrganicShadow | `/shadow` | Ombre mouvante sous un contenu immobile. |
 | LiquidProgress | `/progress` | Jauge liquide accessible, pilotée par une valeur réelle. |
 | OrganicSpotlight | `/spotlight` | Éclairage autonome sur une image. |
+| OrganicImageCompare | `/compare` | Comparaison avant/après avec une frontière ondulante. |
+| OrganicImageFrame | `/frame` | Découpage de l’image par un cadre autonome. |
+| OrganicSkeleton | `/skeleton` | Carte de chargement avec lumière diffuse. |
 | OrganicLoader | `/loader` | Gouttes fusionnées par un filtre SVG, label accessible. |
 
 Button, Surface, Text, Gradient et Loader acceptent `intensity` (0–1), `speed` (0.2–3) et `motionDisabled`. Button distingue le mouvement (`motionDisabled`) de l’état natif du bouton (`disabled`). Transition accepte `duration` (300–3000 ms), `color`, `motionDisabled`, et `transitionKey` à changer avec les enfants. Les animations continues s’interrompent hors écran et en onglet masqué ; tous ces nouveaux composants respectent `prefers-reduced-motion`.
@@ -58,8 +61,12 @@ Les cinq nouveaux composants acceptent aussi `intensity`, `speed`, `motionDisabl
 
 LiquidProgress accepte `value`, `max` (100 par défaut) et un `label` accessible. La valeur est bornée entre zéro et le maximum ; la surface se stabilise à 0 % et 100 %. Le composant n’invente pas de progression : fournissez la valeur depuis votre application. Les animations sont suspendues hors écran et dans les onglets masqués, et restent statiques avec la préférence de réduction des animations.
 
-LiquidParallax accepte `src`, `alt`, `depth` (0–1), `liquid` (0–1), `paused`, `children`, `className`, `style` et les attributs div. Donner une hauteur au conteneur. Images locales ou distantes compatibles CORS. Sans WebGL : image statique. Mouvement réduit : parallaxe désactivée. Le moteur et ses écouteurs sont nettoyés au démontage.
+### Les trois expériences supplémentaires
 
-La profondeur est simulée, sans reconstruction 3D. Les événements pointeur traversent le canvas ; les enfants restent interactifs. Les images fournies sont des illustrations SVG du projet et du package original. DM Sans est chargée depuis Google Fonts avec fallback Arial.
+Toutes acceptent `intensity`, `speed`, `motionDisabled` et `style`, sans CSS obligatoire de la démo.
 
-L’intégration Next.js et les déclarations TypeScript de la nouvelle toolbox ne sont pas encore préparées ; cette version cible une application React côté navigateur.
+- `OrganicImageCompare` : `before`, `after`, `beforeAlt`, `afterAlt`, `defaultValue` (50). Pour un usage contrôlé : `value` (0–100) et `onValueChange`. Son slider natif fonctionne au toucher et au clavier. Les deux images sont recadrées en cover ; utilisez des cadrages identiques pour un avant/après fidèle.
+- `OrganicImageFrame` : `src`, `alt`. Le cadre évolue sans déplacer l’image. Ratio 4/3 par défaut, personnalisable via `style`.
+- `OrganicSkeleton` : `label` pour l’état de chargement. Remplacez-le par votre contenu lorsque les données arrivent et réservez les mêmes dimensions dans le conteneur. Il ne simule ni requête ni délai de chargement.
+
+Les nouveaux effets autonomes sont suspendus hors écran. Tous respectent la réduction des animations.

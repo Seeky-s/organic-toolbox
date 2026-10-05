@@ -11,3 +11,6 @@ export { InkSpread } from './InkSpread.jsx';
 export { OrganicShadow } from './OrganicShadow.jsx';
 export { LiquidProgress } from './LiquidProgress.jsx';
 export { OrganicSpotlight } from './OrganicSpotlight.jsx';
+export { OrganicImageCompare } from './OrganicImageCompare.jsx';
+export { OrganicImageFrame } from './OrganicImageFrame.jsx';
+export { OrganicSkeleton } from './OrganicSkeleton.jsx';

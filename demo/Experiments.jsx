@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
+import {OrganicImageCompare,OrganicImageFrame,OrganicSkeleton} from '../src/index.js';
 import {OrganicButton,OrganicSurface,OrganicText,AmbientGradient,OrganicLoader,LiquidTransition,OrganicDivider,InkSpread,OrganicShadow,LiquidProgress,OrganicSpotlight} from '../src/index.js';
 
 export const experiments = [
+  {slug:'compare',name:'OrganicImageCompare',title:'Organic image compare',word:'Compare.',description:'Deux images, une frontière liquide. Déplacez le curseur de comparaison au doigt ou au clavier.',number:'014'},
+  {slug:'frame',name:'OrganicImageFrame',title:'Organic image frame',word:'Frame.',description:'Le cadre découpe doucement l’image, comme une matière qui respire.',number:'015'},
+  {slug:'skeleton',name:'OrganicSkeleton',title:'Organic skeleton',word:'Wait.',description:'Une lumière diffuse accompagne l’attente dans un espace réservé au contenu.',number:'016'},
   {slug:'divider',name:'OrganicDivider',title:'Organic divider',word:'Flow.',description:'Une frontière souple entre deux sections, comme une ligne d’eau.',number:'009'},
   {slug:'ink',name:'InkSpread',title:'Ink spread',word:'Diffuse.',description:'Des couches d’encre aux bords irréguliers se diffusent lentement sur le papier.',number:'010'},
   {slug:'shadow',name:'OrganicShadow',title:'Organic shadow',word:'Float.',description:'Une ombre vivante sous une carte qui reste parfaitement immobile.',number:'011'},
@@ -18,6 +22,9 @@ const scenes=[['/cover.svg','Somewhere quiet.'],['/reveal.svg','Somewhere warm.'
 export function Specimen({slug,intensity=.5,speed=1,motionDisabled=false,compact=false}){
   const [count,setCount]=useState(0),[scene,setScene]=useState(0),[progress,setProgress]=useState(45);
   const common={intensity,speed,motionDisabled};
+  if(slug==='compare')return <div className="new-specimen"><OrganicImageCompare {...common} before="/cover.svg" after="/reveal.svg" beforeAlt="Paysage sous une lumière froide" afterAlt="Paysage sous une lumière chaude"/></div>;
+  if(slug==='frame')return <div className="new-specimen"><OrganicImageFrame {...common} src="/dunes.svg" alt="Dunes abstraites dans un cadre vivant"/><p className="specimen-hint">A FRAME THAT BREATHES</p></div>;
+  if(slug==='skeleton')return <div className="specimen-center"><div className="skeleton-demo">{count%2===0?<OrganicSkeleton {...common}/>:<div className="skeleton-result"><img src="/cover.svg" alt="Paysage de montagnes"/><h3>Somewhere quiet.</h3><p>Le contenu a trouvé sa place.</p><p>Prendre le temps.</p></div>}</div><button className="outline" onClick={()=>setCount(n=>n+1)}>{count%2===0?'Afficher le contenu':'Rejouer l’attente'}</button></div>;
   if(slug==='divider')return <div className="divider-demo"><div><span className="eyebrow">BETWEEN TWO WORLDS</span><h3>A softer<br/><em>boundary.</em></h3></div><OrganicDivider {...common} color="#758a70"/><div className="divider-bottom">LE MOUVEMENT RELIE LES ESPACES</div></div>;
   if(slug==='ink')return <InkSpread {...common} className="ink-demo"><span className="eyebrow">PIGMENT / PAPER / TIME</span><h3>Leave<br/><em>a trace.</em></h3><span>LA MATIÈRE PREND SON TEMPS</span></InkSpread>;
   if(slug==='shadow')return <div className="specimen-center"><OrganicShadow {...common} className="shadow-demo"><div><span className="eyebrow">LIGHT STUDY / 01</span><h3>Still here.<br/><em>Almost floating.</em></h3><p>La carte reste fixe.<br/>Seule son ombre voyage.</p></div></OrganicShadow></div>;
@@ -35,6 +42,9 @@ export function ExperimentPage({item}){
   const [intensity,setIntensity]=useState(.5),[speed,setSpeed]=useState(1),[motionDisabled,setMotionDisabled]=useState(false),[copied,setCopied]=useState(false);
   const props=`intensity={${intensity}}\n  speed={${speed}}\n  motionDisabled={${motionDisabled}}`;
   const snippets={
+    compare:`<OrganicImageCompare\n  ${props}\n  before="/images/before.jpg"\n  after="/images/after.jpg"\n  beforeAlt="Avant retouche"\n  afterAlt="Après retouche"\n  defaultValue={50}\n/>`,
+    frame:`<OrganicImageFrame\n  ${props}\n  src="/images/landscape.jpg"\n  alt="Un paysage de dunes"\n/>`,
+    skeleton:`// Affichez le vrai contenu lorsque vos données sont prêtes.\n<OrganicSkeleton\n  ${props}\n  label="Chargement de la carte"\n/>`,
     divider:`<OrganicDivider\n  ${props}\n  color="#758a70"\n/>`,
     ink:`<InkSpread\n  ${props}\n  color="#384f58"\n  style={{ minHeight: 400, padding: 40 }}\n>\n  <h2>Leave a trace.</h2>\n</InkSpread>`,
     shadow:`<OrganicShadow\n  ${props}\n>\n  <div style={{ background: '#fffaf0', padding: 40, borderRadius: 16 }}>\n    Still here. Almost floating.\n  </div>\n</OrganicShadow>`,
